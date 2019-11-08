@@ -11,7 +11,9 @@ class Quiz extends Component {
         card: {
             question: 'React uses Virtual DOM?',
             answer: true
-        }
+        },
+        userResponded: true,
+        userResponse: true
     }
 
   // Styling
@@ -19,16 +21,34 @@ class Quiz extends Component {
   render() {
 
     const { deck } = this.props
-    const { card, currentCardNumber }  = this.state
+    const { card, currentCardNumber, userResponded, userResponse }  = this.state
 
     return (
       <View>
         <Text>Quiz</Text>
-        <Text>{currentCardNumber}/{deck.cards.length}</Text>
-        <Text>{card.question}</Text>
-        <Button name={'Answer'} onPress={this.submit} />
-        <Button name={'Correct'} onPress={this.submit} />
-        <Button name={'Incorrect'} onPress={this.submit} />
+
+        {deck.cards.length === 0
+        ?   <Text>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
+        :   
+            <View>
+                <Text>{currentCardNumber}/{deck.cards.length}</Text>
+
+                {userResponded
+                ? 
+                    <View>
+                        <Text>{card.answer === userResponse ? 'Yes!' : 'No!'}</Text>
+                        <Button name={'Next'} onPress={this.submit} />
+                    </View>
+                :
+                    <View>
+                        <Text>{card.question}</Text>
+                        <Button name={'Answer'} onPress={this.submit} />
+                    </View>
+                }
+                <Button name={'Correct'} onPress={this.submit} />
+                <Button name={'Incorrect'} onPress={this.submit} />
+            </View>
+        }
       </View>
     )
   }
