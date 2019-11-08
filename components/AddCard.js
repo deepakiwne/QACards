@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput } from 'react-native'
-import SubmitBtn from './SubmitBtn'
+import Button from './Button'
 
 class AddDeck extends Component {
   state = {
@@ -41,7 +41,7 @@ class AddDeck extends Component {
             onChangeText={userTyped => this.onChangeAnswer(userTyped)}
             value={answer}
         />
-        <SubmitBtn onPress={this.submit} />
+        <Button name={'Submit'} onPress={this.submit} />
       </View>
     )
   }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, TouchableOpacity,  Platform , StyleSheet } from 'react-native'
 import { purple, white } from "../utils/colors";
 
-function SubmitBtn({ onPress }) {
+function Button({ name, onPress }) {
     return (
       <TouchableOpacity
         style={
@@ -10,7 +10,7 @@ function SubmitBtn({ onPress }) {
         }
         onPress={onPress}
       >
-        <Text style={styles.submitBtnText}>SUBMIT</Text>
+        <Text style={styles.submitBtnText}>{name}</Text>
       </TouchableOpacity>
     );
   }
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
     },
   });
 
-  export default SubmitBtn;
+  export default Button;
