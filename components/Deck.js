@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { View, Text} from 'react-native'
 import Button from './Button'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 class Deck extends Component {
 
   // Styling
 
   render() {
-
-    const { deck }  = this.props
+    
+    const deck  = this.props.navigation.state.params.deck
 
     return (
       <View>

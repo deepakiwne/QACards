@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text} from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 class DeckList extends Component {
   state = {
@@ -16,15 +17,20 @@ class DeckList extends Component {
   render() {
 
     const { decks }  = this.state
-
+ 
     return (
       <View>
           <Text>DeckList</Text>
           {decks.map((deck) => (
-            <View key={deck.name}>
+            <TouchableOpacity key={deck.name} onPress={() => this.props.navigation.navigate(
+                'Deck',
+                { deck: deck }
+              )}>
+              <View>
                 <Text>{deck.name}</Text>
                 <Text>{deck.cards}</Text>
-            </View>
+              </View>
+            </TouchableOpacity>
           ))}
       </View>
     )

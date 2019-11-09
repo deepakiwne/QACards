@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import TabNav from './components/TabNav'
+import StackNav from './components/StackNav';
 
 export class App extends React.Component {
 
@@ -23,7 +24,7 @@ export class App extends React.Component {
   render(){
     return (
         <View style={{ flex: 1}}>
-          <TabNav />
+          <StackNav />
         </View>
     );
   }
