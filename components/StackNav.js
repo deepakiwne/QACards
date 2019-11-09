@@ -3,6 +3,7 @@ import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import Deck from './Deck'
 import TabNav from './TabNav'
+import AddCard from './AddCard'
 
 const StackNav = createStackNavigator({
     home: {
@@ -13,6 +14,15 @@ const StackNav = createStackNavigator({
     },
     Deck: {
     screen: Deck,
+    navigationOptions: ({ navigation }) => ({
+        headerTintColor: white,
+        headerStyle: {
+        backgroundColor: purple,
+        },
+    }),
+    },
+    AddCard: {
+    screen: AddCard,
     navigationOptions: ({ navigation }) => ({
         headerTintColor: white,
         headerStyle: {
