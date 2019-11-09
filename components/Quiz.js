@@ -12,7 +12,7 @@ class Quiz extends Component {
             question: 'React uses Virtual DOM?',
             answer: true
         },
-        userResponded: true,
+        userResponded: false,
         userResponse: true
     }
 
@@ -20,7 +20,7 @@ class Quiz extends Component {
 
   render() {
 
-    const { deck } = this.props
+    const deck  = this.props.navigation.state.params.deck
     const { card, currentCardNumber, userResponded, userResponse }  = this.state
 
     return (
@@ -31,7 +31,7 @@ class Quiz extends Component {
         ?   <Text>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
         :   
             <View>
-                <Text>{currentCardNumber}/{deck.cards.length}</Text>
+                <Text>{currentCardNumber}/{deck.cards}</Text>
 
                 {userResponded
                 ? 
