@@ -1,34 +1,41 @@
 import React, { Component } from 'react'
 import { View, Text} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { getDecks } from '../utils/api'
+import { connect } from 'react-redux'
+import { receiveDecks } from '../actions'
 
 class DeckList extends Component {
   state = {
-    decks: [
-        {title:'D1', cards: [{question: 'Q1', answer: 'A1'}]},
-        {title:'D2', cards: [{question: 'Q2', answer: 'A2'}]},
-        {title:'D3', cards: [{question: 'Q1', answer: 'A1'}, {question: 'Q2', answer: 'A2'}]}
-    ]
   }
 
   // componentDidMount - Make this a connected component - Redux
   // Styling
 
+  componentDidMount(){
+
+    const { dispatch } = this.props
+
+    getDecks()
+    .then((decks) => dispatch(receiveDecks(decks)))
+
+  }
+
   render() {
 
-    const { decks }  = this.state
+    const { decks }  = this.props
  
     return (
       <View>
           <Text>DeckList</Text>
-          {decks.map((deck) => (
-            <TouchableOpacity key={deck.title} onPress={() => this.props.navigation.navigate(
+          {Object.keys(decks).map((key) => (
+            <TouchableOpacity key={decks[key].title} onPress={() => this.props.navigation.navigate(
                 'Deck',
-                { deck: deck }
+                { deck: decks[key] }
               )}>
               <View>
-                <Text>{deck.title}</Text>
-                <Text>{deck.cards.length}</Text>
+                <Text>{decks[key].title}</Text>
+                <Text>{decks[key].cards.length}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -37,4 +44,10 @@ class DeckList extends Component {
   }
 }
 
-export default DeckList
+function mapStateToProps (decks) {
+  return {
+    decks
+  }
+}
+
+export default connect(mapStateToProps)(DeckList)
