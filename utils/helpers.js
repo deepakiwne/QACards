@@ -8,7 +8,7 @@ function createFakeData(){
     {
         React: {
           title: 'React',
-          questions: [
+          cards: [
             {
               question: 'Does react use Virtual DOM?',
               answer: true
@@ -21,7 +21,7 @@ function createFakeData(){
         },
         JavaScript: {
           title: 'JavaScript',
-          questions: [
+          cards: [
             {
               question: 'Can you develop for server side using JavaScript?',
               answer: true

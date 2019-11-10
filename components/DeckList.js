@@ -5,9 +5,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 class DeckList extends Component {
   state = {
     decks: [
-        {name:'D1', cards: 5},
-        {name:'D2', cards: 2},
-        {name:'D3', cards: 7}
+        {title:'D1', cards: [{question: 'Q1', answer: 'A1'}]},
+        {title:'D2', cards: [{question: 'Q2', answer: 'A2'}]},
+        {title:'D3', cards: [{question: 'Q1', answer: 'A1'}, {question: 'Q2', answer: 'A2'}]}
     ]
   }
 
@@ -22,13 +22,13 @@ class DeckList extends Component {
       <View>
           <Text>DeckList</Text>
           {decks.map((deck) => (
-            <TouchableOpacity key={deck.name} onPress={() => this.props.navigation.navigate(
+            <TouchableOpacity key={deck.title} onPress={() => this.props.navigation.navigate(
                 'Deck',
                 { deck: deck }
               )}>
               <View>
-                <Text>{deck.name}</Text>
-                <Text>{deck.cards}</Text>
+                <Text>{deck.title}</Text>
+                <Text>{deck.cards.length}</Text>
               </View>
             </TouchableOpacity>
           ))}

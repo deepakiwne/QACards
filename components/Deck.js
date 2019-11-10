@@ -14,9 +14,9 @@ class Deck extends Component {
     return (
       <View>
         <Text>Deck</Text>
-        <View key={deck.name}>
-            <Text>{deck.name}</Text>
-            <Text>{deck.cards}</Text>
+        <View key={deck.title}>
+            <Text>{deck.title}</Text>
+            <Text>{deck.cards.length}</Text>
         </View>
         <TouchableOpacity onPress={() => this.props.navigation.navigate(
             'AddCard'

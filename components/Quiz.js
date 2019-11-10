@@ -31,7 +31,7 @@ class Quiz extends Component {
         ?   <Text>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
         :   
             <View>
-                <Text>{currentCardNumber}/{deck.cards}</Text>
+                <Text>{currentCardNumber}/{deck.cards.length}</Text>
 
                 {userResponded
                 ? 
