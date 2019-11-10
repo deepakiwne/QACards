@@ -21,8 +21,7 @@ export function getDeck (title) {
 // saveDeckTitle: take in a single title argument and add it to the decks
 export function saveDeckTitle (title) {
     return AsyncStorage.mergeItem(QA_CARDS_KEY, JSON.stringify({
-        [title]: { 'title': title },
-        cards: []
+        [title]: { 'title': title, cards: [] }
     }))
 }
 
@@ -31,7 +30,7 @@ export function addCardToDeck (title, card) {
     return AsyncStorage.getItem(QA_CARDS_KEY)
     .then((results) => {
       const data = JSON.parse(results)
-      data[title]['cards'].push(card)
+      data[title].cards.push(card)
       AsyncStorage.setItem(QA_CARDS_KEY, JSON.stringify(data))
     })
 } 

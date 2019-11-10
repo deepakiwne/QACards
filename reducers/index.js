@@ -13,9 +13,10 @@ function decks (state = {}, action) {
         ...action.deck
       }
     case ADD_CARD :
-      return Object.keys(state).map((key) => (
-            state[key].title === action.title ? state[key].cards.push(action.card) : state[key]
-      ))
+      return {
+        ...state,
+        ...state[action.title].cards.push(action.card)
+      }
     default :
       return state
   }

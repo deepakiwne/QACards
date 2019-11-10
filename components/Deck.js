@@ -19,7 +19,8 @@ class Deck extends Component {
             <Text>{deck.cards.length}</Text>
         </View>
         <TouchableOpacity onPress={() => this.props.navigation.navigate(
-            'AddCard'
+            'AddCard',
+            { deck: deck }
           )}>
           <Button name={'Add Card'} onPress={this.submit} />
         </TouchableOpacity>

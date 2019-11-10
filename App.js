@@ -3,7 +3,8 @@ import { View } from 'react-native';
 import TabNav from './components/TabNav'
 import StackNav from './components/StackNav';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger'
 import reducer from './reducers';
 
 export class App extends React.Component {
@@ -26,7 +27,7 @@ export class App extends React.Component {
 
   render(){
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={createStore(reducer, applyMiddleware(createLogger()))}>
         <View style={{ flex: 1}}>
           <StackNav />
         </View>
