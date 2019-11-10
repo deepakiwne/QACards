@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput } from 'react-native'
 import Button from './Button'
+import { connect } from 'react-redux'
+import { addDeck } from '../actions'
+import { saveDeckTitle } from '../utils/api'
 
 class AddDeck extends Component {
   state = {
-      deckName: 'Enter deck name'
+      deckName: ''
   }
 
   // componentDidMount - Make this a connected component - Redux
@@ -12,8 +15,29 @@ class AddDeck extends Component {
 
   onChangeName(userTyped){
       this.setState({
-          deckName: text
+          deckName: userTyped
       })
+  }
+
+  onSubmit = () => {
+
+    const { dispatch } = this.props
+    const { deckName } = this.state
+
+    // Add to Redux
+    dispatch(
+      addDeck({
+        [deckName]: { title: deckName, cards: [] }
+      })
+    )
+
+    // Add to API
+    saveDeckTitle(deckName)
+
+    // Clear state
+    this.setState({
+      deckName: ''
+    })
   }
 
   render() {
@@ -29,10 +53,10 @@ class AddDeck extends Component {
             onChangeText={userTyped => this.onChangeName(userTyped)}
             value={deckName}
         />
-        <Button name={'Submit'} onPress={this.submit} />
+        <Button name={'Submit'} onPress={this.onSubmit} />
       </View>
     )
   }
 }
 
-export default AddDeck
+export default connect()(AddDeck)
