@@ -28,9 +28,8 @@ class AddDeck extends Component {
 
   onSubmit = () => {
 
-    const { dispatch } = this.props
+    const { deck, dispatch } = this.props
     const { question, answer } = this.state
-    const deck = this.props.navigation.state.params.deck
 
     // Add to Redux
     dispatch(
@@ -75,4 +74,14 @@ class AddDeck extends Component {
   }
 }
 
-export default connect()(AddDeck)
+function mapStateToProps (decks, { navigation }) {
+
+  const { title } = navigation.state.params
+
+  return {
+    title,
+    deck: decks[title]
+  }
+}
+
+export default connect(mapStateToProps)(AddDeck)

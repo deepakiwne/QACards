@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text} from 'react-native'
 import Button from './Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { connect } from 'react-redux'
 
 class Deck extends Component {
 
@@ -9,7 +10,7 @@ class Deck extends Component {
 
   render() {
     
-    const deck  = this.props.navigation.state.params.deck
+    const { deck }  = this.props
 
     return (
       <View>
@@ -20,9 +21,9 @@ class Deck extends Component {
         </View>
         <TouchableOpacity onPress={() => this.props.navigation.navigate(
             'AddCard',
-            { deck: deck }
+            { title: deck.title }
           )}>
-          <Button name={'Add Card'} onPress={this.submit} />
+          <Button name={'Add Card'} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.props.navigation.navigate(
             'Quiz',
@@ -36,4 +37,14 @@ class Deck extends Component {
   }
 }
 
-export default Deck
+function mapStateToProps (decks, { navigation }) {
+
+  const { title } = navigation.state.params
+
+  return {
+    title,
+    deck: decks[title]
+  }
+}
+
+export default connect(mapStateToProps)(Deck)
