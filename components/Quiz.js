@@ -1,57 +1,115 @@
 import React, { Component } from 'react'
 import { View, Text} from 'react-native'
 import Button from './Button'
+import { connect } from 'react-redux'
+import Card from './Card'
 
 class Quiz extends Component {
 
     state = {
-        attempted: 2,
-        correct: 1,
-        currentCardNumber: 1,
-        card: {
-            question: 'React uses Virtual DOM?',
-            answer: true
-        },
-        userResponded: false,
-        userResponse: true
+        attempted: 0,
+        correct: 0,
+        cardIndex: 0,
+        gameComplete: false,
+        flip: false
     }
 
   // Styling
+  onCorrect = (answer) => {
 
+    const { cardIndex } = this.state
+    const { cardsMaxIndex } = this.props
+
+    this.setState((prevState) => ({
+        attempted: prevState.attempted + 1,
+        correct: answer ? prevState.correct + 1 : prevState.correct,
+        gameComplete: cardIndex === cardsMaxIndex,
+        cardIndex: prevState.cardIndex === cardsMaxIndex ? prevState.cardIndex : prevState.cardIndex + 1,
+        flip: false
+    }))
+  }
+  onIncorrect = (answer) => {
+
+    const { cardIndex } = this.state
+    const { cardsMaxIndex } = this.props
+    
+    this.setState((prevState) => ({
+        attempted: prevState.attempted + 1,
+        correct: !answer ? prevState.correct + 1 : prevState.correct,
+        gameComplete: cardIndex === cardsMaxIndex,
+        cardIndex: prevState.cardIndex === cardsMaxIndex ? prevState.cardIndex : prevState.cardIndex + 1,
+        flip: false
+    }))
+  }
+  onFlip = () => {
+
+    this.setState({
+      flip: true
+    })
+  }
+  onRestartQuiz = () => {
+    this.setState(
+      {
+        attempted: 0,
+        correct: 0,
+        cardIndex: 0,
+        gameComplete: false,
+        flip: false
+      }
+    )
+  }
+  onBackToDeck = () => {
+    
+  }
   render() {
+    
+    const { cards, title } = this.props
+    const { cardIndex, gameComplete, attempted, correct, flip }  = this.state
 
-    const deck  = this.props.navigation.state.params.deck
-    const { card, currentCardNumber, userResponded, userResponse }  = this.state
+    if(cards.length === 0) {
+      return (
+        <Text>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
+      )
+    }
 
     return (
       <View>
         <Text>Quiz</Text>
+        <View>
+            <Text>{cardIndex + 1}/{cards.length}</Text>
 
-        {deck.cards.length === 0
-        ?   <Text>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
-        :   
-            <View>
-                <Text>{currentCardNumber}/{deck.cards.length}</Text>
-
-                {userResponded
-                ? 
-                    <View>
-                        <Text>{card.answer === userResponse ? 'Yes!' : 'No!'}</Text>
-                        <Button name={'Next'} onPress={this.submit} />
-                    </View>
-                :
-                    <View>
-                        <Text>{card.question}</Text>
-                        <Button name={'Answer'} onPress={this.submit} />
-                    </View>
-                }
-                <Button name={'Correct'} onPress={this.submit} />
-                <Button name={'Incorrect'} onPress={this.submit} />
-            </View>
-        }
+            {gameComplete
+            ? 
+              <View>
+                <Text>{`Quiz Complete! Attempted: ${attempted} Correct: ${correct} Percent Correct: ${correct/attempted*100}`}</Text>
+                <Button name={'Restart Quiz'} onPress={() => this.onRestartQuiz()} />
+                <Button name={'Back to Deck'} onPress={() => this.props.navigation.navigate(
+                  'Deck',
+                  { title: title }
+                )} />
+              </View>
+            :
+              <View>
+                  <Card question={cards[cardIndex].question} answer={cards[cardIndex].answer} flip={flip} onFlip={this.onFlip} />
+                  <Button name={'Correct'} onPress={() => this.onCorrect(cards[cardIndex].answer)} />
+                  <Button name={'Incorrect'} onPress={() => this.onIncorrect(cards[cardIndex].answer)} />
+              </View>
+            }
+        </View>
       </View>
     )
   }
 }
 
-export default Quiz
+function mapStateToProps (decks, { navigation }) {
+
+  const { title } = navigation.state.params
+
+  return {
+    title,
+    cardsMaxIndex: decks[title].cards.length - 1,
+    cards: decks[title].cards
+  }
+}
+
+export default connect(mapStateToProps)(Quiz)
