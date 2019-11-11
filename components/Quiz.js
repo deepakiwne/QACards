@@ -3,6 +3,7 @@ import { View, Text} from 'react-native'
 import Button from './Button'
 import { connect } from 'react-redux'
 import Card from './Card'
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 class Quiz extends Component {
 
@@ -14,6 +15,10 @@ class Quiz extends Component {
         flip: false
     }
 
+  componentDidMount() {
+    clearLocalNotification()
+      .then(setLocalNotification)
+  }
   // Styling
   onCorrect = (answer) => {
 

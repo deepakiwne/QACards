@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger'
 import reducer from './reducers';
+import { setLocalNotification } from './utils/helpers';
 
 export class App extends React.Component {
 
@@ -24,10 +25,13 @@ export class App extends React.Component {
       ]
     }
   }
-
+  componentDidMount() {
+    setLocalNotification()
+  }
   render(){
     return (
-      <Provider store={createStore(reducer, applyMiddleware(createLogger()))}>
+      // <Provider store={createStore(reducer, applyMiddleware(createLogger()))}>
+      <Provider store={createStore(reducer)}>
         <View style={{ flex: 1}}>
           <StackNav />
         </View>
