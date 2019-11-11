@@ -28,18 +28,18 @@ class AddDeck extends Component {
 
   onSubmit = () => {
 
-    const { deck, dispatch } = this.props
+    const { title, dispatch } = this.props
     const { question, answer } = this.state
 
     // Add to Redux
     dispatch(
-      addCard(deck.title, {
+      addCard(title, {
         question: question, answer: answer
       })
     )
 
     // Add to API
-    addCardToDeck(deck.title, {
+    addCardToDeck(title, {
       question: question, answer: answer
     })
 
@@ -48,6 +48,12 @@ class AddDeck extends Component {
       question: '',
       answer: ''
     })
+
+    // Navigate to deck
+    this.props.navigation.navigate(
+      'Deck',
+      { title: title }
+    )
   }
 
   render() {
