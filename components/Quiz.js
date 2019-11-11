@@ -92,7 +92,7 @@ class Quiz extends Component {
             {gameComplete
             ? 
               <View>
-                <Text>{`Quiz Complete! Attempted: ${attempted} Correct: ${correct} Percent Correct: ${correct/attempted*100}`}</Text>
+                <Text>{`Quiz Complete! Attempted: ${attempted} Correct: ${correct} Percent Correct: ${(correct/attempted*100).toFixed(1)}`}</Text>
                 <Button name={'Restart Quiz'} onPress={() => this.onRestartQuiz()} />
                 <Button name={'Back to Deck'} onPress={() => this.props.navigation.navigate(
                   'Deck',

@@ -4,11 +4,12 @@ import Button from './Button'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
 import { addCardToDeck } from '../utils/api'
+import { Switch } from 'react-native-gesture-handler'
 
 class AddDeck extends Component {
   state = {
       question: '',
-      answer: ''
+      answer: false
   }
 
   // componentDidMount - Make this a connected component - Redux
@@ -18,12 +19,6 @@ class AddDeck extends Component {
       this.setState({
           question: userTyped
       })
-  }
-
-  onChangeAnswer(userTyped){
-    this.setState({
-        answer: userTyped
-    })
   }
 
   onSubmit = () => {
@@ -46,7 +41,7 @@ class AddDeck extends Component {
     // Clear state
     this.setState({
       question: '',
-      answer: ''
+      answer: false
     })
 
     // Navigate to deck
@@ -55,7 +50,11 @@ class AddDeck extends Component {
       { title: title }
     )
   }
-
+  onChangeAnswer = () => {
+    this.setState((prevState) => ({
+      answer: !prevState.answer
+    }))
+  }
   render() {
 
     const { question, answer }  = this.state
@@ -64,16 +63,16 @@ class AddDeck extends Component {
       <View>
         <Text>AddCard</Text>
     
+        <Text>Question</Text>
         <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
             onChangeText={userTyped => this.onChangeQuestion(userTyped)}
             value={question}
         />
-        <TextInput
-            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-            onChangeText={userTyped => this.onChangeAnswer(userTyped)}
-            value={answer}
-        />
+        <Text>Answer</Text>
+        <Switch
+          onValueChange={() => this.onChangeAnswer()}
+          value={answer}></Switch>
         <Button name={'Submit'} onPress={this.onSubmit} />
       </View>
     )
