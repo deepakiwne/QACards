@@ -7,7 +7,7 @@ import { saveDeckTitle } from '../utils/api'
 
 class AddDeck extends Component {
   state = {
-      deckName: ''
+    title: ''
   }
 
   // componentDidMount - Make this a connected component - Redux
@@ -15,34 +15,40 @@ class AddDeck extends Component {
 
   onChangeName(userTyped){
       this.setState({
-          deckName: userTyped
+        title: userTyped
       })
   }
 
   onSubmit = () => {
 
     const { dispatch } = this.props
-    const { deckName } = this.state
+    const { title } = this.state
 
     // Add to Redux
     dispatch(
       addDeck({
-        [deckName]: { title: deckName, cards: [] }
+        [title]: { title: title, cards: [] }
       })
     )
 
     // Add to API
-    saveDeckTitle(deckName)
+    saveDeckTitle(title)
 
     // Clear state
     this.setState({
-      deckName: ''
+      title: ''
     })
+
+    // Navigate to new deck
+    this.props.navigation.navigate(
+      'Deck',
+      { title: title }
+    )
   }
 
   render() {
 
-    const { deckName }  = this.state
+    const { title }  = this.state
 
     return (
       <View>
@@ -51,9 +57,9 @@ class AddDeck extends Component {
         <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
             onChangeText={userTyped => this.onChangeName(userTyped)}
-            value={deckName}
+            value={title}
         />
-        <Button name={'Submit'} onPress={this.onSubmit} />
+        <Button name={'Create Deck'} onPress={this.onSubmit} />
       </View>
     )
   }
