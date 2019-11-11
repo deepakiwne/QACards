@@ -19,7 +19,7 @@ export function addDeck (deck) {
 export function addCard (title, card) {
   return {
     type: ADD_CARD,
-    title: title, // JavaScript
-    card: card // {question: 'q1', answer: 'a1'}
+    title: title,
+    card: card
   }
 }
