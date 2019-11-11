@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
-import { View, Text} from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import Button from './Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
+import { gray, white, purple } from '../utils/colors'
 
 class Deck extends Component {
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.title
+    }
+  }
 
   // Styling
 
@@ -13,28 +20,56 @@ class Deck extends Component {
     const { deck }  = this.props
 
     return (
-      <View>
-        <Text>Deck</Text>
-        <View key={deck.title}>
-            <Text>{deck.title}</Text>
-            <Text>{deck.cards.length}</Text>
+      <View style={styles.container}>
+        <View style={[styles.content, styles.deckCard]} key={deck.title}>
+            <Text style={{ fontSize: 35, fontWeight: 'bold' }}>{deck.title}</Text>
+            <Text style={{ fontSize: 20, color: gray }}>{deck.cards.length} {deck.cards.length === 1 ? 'card' : 'cards'}</Text>
         </View>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate(
+        <TouchableOpacity
+          style={[styles.content, styles.button, {backgroundColor: purple}]}
+          onPress={() => this.props.navigation.navigate(
             'AddCard',
             { title: deck.title }
           )}>
-          <Button name={'Add Card'} />
+          <Text style={{fontSize: 18, color: white}}>Add Card</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate(
+        <TouchableOpacity
+          style={[styles.content, styles.button, {backgroundColor: purple}]}
+          onPress={() => this.props.navigation.navigate(
             'Quiz',
             { title: deck.title }
           )}>
-          <Button name={'Start Quiz'} />
+          <Text style={{fontSize: 18, color: white}}>Start Quiz</Text>
         </TouchableOpacity>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  content: {
+    margin: 30
+  },
+  deckCard: {
+    padding: 5,
+    width: 300,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button: {
+    padding: 5,
+    borderRadius: 8,
+    width: 200,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 function mapStateToProps (decks, { navigation }) {
 

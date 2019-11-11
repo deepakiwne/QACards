@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import Button from './Button'
 import { connect } from 'react-redux'
 import { addDeck } from '../actions'
 import { saveDeckTitle } from '../utils/api'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { purple, white } from '../utils/colors'
 
 class AddDeck extends Component {
   state = {
@@ -51,18 +53,55 @@ class AddDeck extends Component {
     const { title }  = this.state
 
     return (
-      <View>
-        <Text>AddDeck</Text>
-        <Text> What is the title of your new Deck?</Text>
+      <View style={styles.container}>
+        <Text style={ [styles.content, styles.question, { fontSize: 35 }] }> What is the title of your new Deck?</Text>
         <TextInput
-            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+            placeholder='Deck Title'
+            style={[styles.content, styles.input, { height: 40, borderColor: 'gray', borderWidth: 1 }]}
             onChangeText={userTyped => this.onChangeName(userTyped)}
             value={title}
         />
-        <Button name={'Create Deck'} onPress={this.onSubmit} />
+        {/* <View style={[styles.content]}>
+          <Button name={'Create Deck'} onPress={this.onSubmit} />
+        </View> */}
+        <TouchableOpacity
+          style={[styles.content, styles.button, {backgroundColor: purple}]}
+          onPress={() => this.onSubmit()}>
+          <Text style={{fontSize: 18, color: white}}>Create Deck</Text>
+        </TouchableOpacity>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  content: {
+    margin: 30
+  },
+  input: {
+    borderWidth: 1,
+    padding: 5,
+    borderRadius: 6,
+    width: 300,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  question: {
+    maxWidth: 300
+  },
+  button: {
+    padding: 5,
+    borderRadius: 8,
+    width: 200,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 export default connect()(AddDeck)

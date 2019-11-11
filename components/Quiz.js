@@ -1,19 +1,27 @@
 import React, { Component } from 'react'
-import { View, Text} from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import Button from './Button'
 import { connect } from 'react-redux'
 import Card from './Card'
 import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
+import { purple, white, red, green } from '../utils/colors'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 class Quiz extends Component {
 
-    state = {
-        attempted: 0,
-        correct: 0,
-        cardIndex: 0,
-        gameComplete: false,
-        flip: false
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Quiz'
     }
+  }
+
+  state = {
+      attempted: 0,
+      correct: 0,
+      cardIndex: 0,
+      gameComplete: false,
+      flip: false
+  }
 
   componentDidMount() {
     clearLocalNotification()
@@ -79,45 +87,87 @@ class Quiz extends Component {
 
     if(cards.length === 0) {
       return (
-        <Text>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
+        <View style={styles.container}>
+          <Text style={[styles.content, {fontSize: 22}]}>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
+        </View>
+      )
+    }
+
+    if(gameComplete) {
+      return (
+        <View style={styles.container}>
+          <Text style={[styles.content, {fontSize: 22}]}>{`Quiz Complete! Score: ${(correct/attempted*100).toFixed(1)} %`}</Text>
+          <TouchableOpacity
+            style={[styles.content, styles.button, {backgroundColor: purple}]}
+            onPress={() => this.onRestartQuiz()}>
+            <Text style={{fontSize: 18, color: white}}>Restart Quiz</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.content, styles.button, {backgroundColor: purple}]}
+            onPress={() => this.props.navigation.navigate(
+              'Deck',
+              { title: title }
+            )}>
+            <Text style={{fontSize: 18, color: white}}>Back to Deck</Text>
+          </TouchableOpacity>
+        </View>
       )
     }
 
     return (
-      <View>
-        <Text>Quiz</Text>
-        <View>
-            <Text>{cardIndex + 1}/{cards.length}</Text>
-
-            {gameComplete
-            ? 
-              <View>
-                <Text>{`Quiz Complete! Attempted: ${attempted} Correct: ${correct} Percent Correct: ${(correct/attempted*100).toFixed(1)}`}</Text>
-                <Button name={'Restart Quiz'} onPress={() => this.onRestartQuiz()} />
-                <Button name={'Back to Deck'} onPress={() => this.props.navigation.navigate(
-                  'Deck',
-                  { title: title }
-                )} />
-              </View>
-            :
-              <View>
-                  <Card question={cards[cardIndex].question} answer={cards[cardIndex].answer}
-                    flip={flip} onQuestion={this.onQuestion} onAnswer={this.onAnswer}/>
-                  {flip
-                  ? <View></View>
-                  :
-                  <View>
-                  <Button name={'Correct'} onPress={() => this.onCorrect(cards[cardIndex].answer)} />
-                  <Button name={'Incorrect'} onPress={() => this.onIncorrect(cards[cardIndex].answer)} />
-                  </View>
-                  }
-              </View>
-            }
-        </View>
+      <View style={styles.container}>
+        <Text style={[styles.content, {fontSize: 18}]}>{cardIndex + 1}/{cards.length}</Text>
+        <Card style={styles.content} question={cards[cardIndex].question} answer={cards[cardIndex].answer}
+          flip={flip} onQuestion={this.onQuestion} onAnswer={this.onAnswer}/>
+        
+        {flip
+        ?
+          <Text></Text>
+        :
+          <View>
+            <TouchableOpacity
+              style={[styles.content, styles.button, {backgroundColor: green}]}
+              onPress={() => this.onCorrect(cards[cardIndex].answer)}>
+              <Text style={{fontSize: 18, color: white}}>Correct</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.content, styles.button, {backgroundColor: red}]}
+              onPress={() => this.onIncorrect(cards[cardIndex].answer)}>
+              <Text style={{fontSize: 18, color: white}}>Incorrect</Text>
+            </TouchableOpacity>
+          </View>
+        }
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  content: {
+    margin: 30
+  },
+  input: {
+    borderWidth: 1,
+    padding: 5,
+    borderRadius: 6,
+    width: 300,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button: {
+    padding: 5,
+    borderRadius: 8,
+    width: 200,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 function mapStateToProps (decks, { navigation }) {
 

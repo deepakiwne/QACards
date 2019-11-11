@@ -1,12 +1,20 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import Button from './Button'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
 import { addCardToDeck } from '../utils/api'
-import { Switch } from 'react-native-gesture-handler'
+import { Switch, TouchableOpacity } from 'react-native-gesture-handler'
+import { purple, white } from '../utils/colors'
 
 class AddDeck extends Component {
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Add Card'
+    }
+  }
+
   state = {
       question: '',
       answer: false
@@ -60,24 +68,58 @@ class AddDeck extends Component {
     const { question, answer }  = this.state
     
     return (
-      <View>
-        <Text>AddCard</Text>
-    
-        <Text>Question</Text>
+      <View style={styles.container}>
         <TextInput
-            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+            placeholder='Add Your Question'
+            style={[styles.content, styles.input, { height: 40, borderColor: 'gray', borderWidth: 1 }]}
             onChangeText={userTyped => this.onChangeQuestion(userTyped)}
             value={question}
         />
-        <Text>Answer</Text>
-        <Switch
-          onValueChange={() => this.onChangeAnswer()}
-          value={answer}></Switch>
-        <Button name={'Submit'} onPress={this.onSubmit} />
+
+        <View style={styles.content}>
+          <Text style={{fontSize: 18}}>Answer</Text>
+          <Switch
+            onValueChange={() => this.onChangeAnswer()}
+            value={answer}>
+          </Switch>
+        </View>
+        <TouchableOpacity
+          style={[styles.content, styles.button, {backgroundColor: purple}]}
+          onPress={() => this.onSubmit()}>
+          <Text style={{fontSize: 18, color: white}}>Submit</Text>
+        </TouchableOpacity>
+
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  content: {
+    margin: 30
+  },
+  input: {
+    borderWidth: 1,
+    padding: 5,
+    borderRadius: 6,
+    width: 300,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button: {
+    padding: 5,
+    borderRadius: 8,
+    width: 200,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 function mapStateToProps (decks, { navigation }) {
 
