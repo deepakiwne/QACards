@@ -29,9 +29,8 @@ class Deck extends Component {
             'Quiz',
             { title: deck.title }
           )}>
-          <Button name={'Start Quiz'} onPress={this.submit} />
+          <Button name={'Start Quiz'} />
         </TouchableOpacity>
-        <Button name={'Delete Deck'} onPress={this.submit} />
       </View>
     )
   }
