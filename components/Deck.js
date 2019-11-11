@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import Button from './Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { gray, white, purple } from '../utils/colors'
@@ -12,8 +11,6 @@ class Deck extends Component {
       title: navigation.state.params.title
     }
   }
-
-  // Styling
 
   render() {
     

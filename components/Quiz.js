@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import Button from './Button'
 import { connect } from 'react-redux'
 import Card from './Card'
 import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
@@ -96,7 +95,8 @@ class Quiz extends Component {
     if(gameComplete) {
       return (
         <View style={styles.container}>
-          <Text style={[styles.content, {fontSize: 22}]}>{`Quiz Complete! Score: ${(correct/attempted*100).toFixed(1)} %`}</Text>
+          <Text style={[styles.content, {fontSize: 35}]}>{`Quiz Complete!`}</Text>
+          <Text style={[styles.content, {fontSize: 22}]}>{`Score: ${(correct/attempted*100).toFixed(1)} %`}</Text>
           <TouchableOpacity
             style={[styles.content, styles.button, {backgroundColor: purple}]}
             onPress={() => this.onRestartQuiz()}>

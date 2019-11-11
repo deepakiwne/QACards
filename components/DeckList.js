@@ -10,9 +10,6 @@ class DeckList extends Component {
   state = {
   }
 
-  // componentDidMount - Make this a connected component - Redux
-  // Styling
-
   componentDidMount(){
 
     const { dispatch } = this.props

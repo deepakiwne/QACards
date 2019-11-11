@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
-import Button from './Button'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
 import { addCardToDeck } from '../utils/api'
@@ -19,16 +18,12 @@ class AddDeck extends Component {
       question: '',
       answer: false
   }
-
-  // componentDidMount - Make this a connected component - Redux
-  // Styling
-
+  
   onChangeQuestion(userTyped){
       this.setState({
           question: userTyped
       })
   }
-
   onSubmit = () => {
 
     const { title, dispatch } = this.props

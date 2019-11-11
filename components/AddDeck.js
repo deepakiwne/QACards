@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
-import Button from './Button'
 import { connect } from 'react-redux'
 import { addDeck } from '../actions'
 import { saveDeckTitle } from '../utils/api'
@@ -12,15 +11,11 @@ class AddDeck extends Component {
     title: ''
   }
 
-  // componentDidMount - Make this a connected component - Redux
-  // Styling
-
   onChangeName(userTyped){
       this.setState({
         title: userTyped
       })
   }
-
   onSubmit = () => {
 
     const { dispatch } = this.props
@@ -61,9 +56,6 @@ class AddDeck extends Component {
             onChangeText={userTyped => this.onChangeName(userTyped)}
             value={title}
         />
-        {/* <View style={[styles.content]}>
-          <Button name={'Create Deck'} onPress={this.onSubmit} />
-        </View> */}
         <TouchableOpacity
           style={[styles.content, styles.button, {backgroundColor: purple}]}
           onPress={() => this.onSubmit()}>

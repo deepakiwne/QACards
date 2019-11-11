@@ -1,36 +1,33 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { purple, white, orange } from '../utils/colors'
+import { orange } from '../utils/colors'
 
 class Card extends Component {
-
-  // Styling
 
   render() {
 
     const { question, answer, flip, onQuestion, onAnswer } = this.props
 
     return (
-        flip
-        ? 
-          <View style={styles.container}>
-            <Text style={[styles.content, {fontSize: 22}]}>{answer ? 'Yes!' : 'No!'}</Text>
-            <Text
-              style={[styles.content, {fontSize: 18, color: orange}]}
-              onPress={() => onQuestion()}>
-              Show Question
-            </Text>
-          </View>
-        : 
-          <View style={styles.container}>
-            <Text style={[styles.content, {fontSize: 22}]}>{question}</Text>
-            <Text
-              style={[styles.content, {fontSize: 18, color: orange}]}
-              onPress={() => onAnswer()}>
-              Show Answer
-            </Text>
-          </View>
+      flip
+      ? 
+        <View style={styles.container}>
+          <Text style={[styles.content, {fontSize: 22}]}>{answer ? 'Yes!' : 'No!'}</Text>
+          <Text
+            style={[styles.content, {fontSize: 18, color: orange}]}
+            onPress={() => onQuestion()}>
+            Show Question
+          </Text>
+        </View>
+      : 
+        <View style={styles.container}>
+          <Text style={[styles.content, {fontSize: 22}]}>{question}</Text>
+          <Text
+            style={[styles.content, {fontSize: 18, color: orange}]}
+            onPress={() => onAnswer()}>
+            Show Answer
+          </Text>
+        </View>
     )
   }
 }
