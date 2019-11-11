@@ -8,18 +8,19 @@ class Card extends Component {
 
   render() {
 
-    const { question, answer, flip, onFlip } = this.props
+    const { question, answer, flip, onQuestion, onAnswer } = this.props
 
     return (
         flip
         ? 
             <View>
             <Text>{`A: ${answer ? 'Yes!' : 'No!'}`}</Text>
+            <Button name={'Show Question'} onPress={() => onQuestion()} />
             </View>
         : 
             <View>
                 <Text>{`Q: ${question}`}</Text>
-                <Button name={'Show Answer'} onPress={() => onFlip()} />
+                <Button name={'Show Answer'} onPress={() => onAnswer()} />
             </View>
     )
   }

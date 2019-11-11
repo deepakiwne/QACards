@@ -46,7 +46,13 @@ class Quiz extends Component {
         flip: false
     }))
   }
-  onFlip = () => {
+  onQuestion = () => {
+
+    this.setState({
+      flip: false
+    })
+  }
+  onAnswer = () => {
 
     this.setState({
       flip: true
@@ -95,9 +101,16 @@ class Quiz extends Component {
               </View>
             :
               <View>
-                  <Card question={cards[cardIndex].question} answer={cards[cardIndex].answer} flip={flip} onFlip={this.onFlip} />
+                  <Card question={cards[cardIndex].question} answer={cards[cardIndex].answer}
+                    flip={flip} onQuestion={this.onQuestion} onAnswer={this.onAnswer}/>
+                  {flip
+                  ? <View></View>
+                  :
+                  <View>
                   <Button name={'Correct'} onPress={() => this.onCorrect(cards[cardIndex].answer)} />
                   <Button name={'Incorrect'} onPress={() => this.onIncorrect(cards[cardIndex].answer)} />
+                  </View>
+                  }
               </View>
             }
         </View>
